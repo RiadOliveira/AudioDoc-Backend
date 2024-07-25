@@ -3,8 +3,10 @@ import ConvertPDFToAudioService from 'services/ConvertPDFToAudioService';
 
 const routes: FastifyPluginCallback = async (server, _options) => {
   server.post('/pdf-to-audio', async (request, response) => {
-    const pdfData = await request.file();
-    await ConvertPDFToAudioService.execute(pdfData);
+    const fileData = await request.file();
+    const pdfText = await ConvertPDFToAudioService.execute(fileData);
+
+    response.send(pdfText);
   });
 };
 
