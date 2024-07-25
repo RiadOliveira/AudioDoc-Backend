@@ -1,14 +1,15 @@
+import routes from 'routes';
 import fastify from 'fastify';
+import fileHandler from '@fastify/multipart';
+import loggerConfig from './config/fastifyLoggerConfig';
 
-const server = fastify();
+const server = fastify(loggerConfig);
+server.register(fileHandler);
+server.register(routes);
 
-server.get('/', (request, response) => response.send({ hello: 'world' }));
+server.listen({ port: 3000 }, (error, _address) => {
+  if (!error) return;
 
-server.listen({ port: 3000 }, (error, address) => {
-  if (error) {
-    server.log.error(error);
-    process.exit(1);
-  }
-
-  console.log(`Server is now listening on ${address}`);
+  server.log.error(error);
+  process.exit(1);
 });
