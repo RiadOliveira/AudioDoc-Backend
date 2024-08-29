@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "repository": "git@github.com:RiadOliveira/AudioDoc-Backend.git",
   "scripts": {
-    "dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules src/server.ts",
+    "dev": "ts-node-dev --env-file=.env -r tsconfig-paths/register --transpile-only --ignore-watch node_modules src/server.ts",
     "build": "tsc -p tsconfig.json"
   },
   "license": "MIT",
   "dependencies": {
     "@fastify/multipart": "^8.3.0",
+    "@google-cloud/text-to-speech": "^5.4.0",
     "fastify": "^4.28.1",
     "firebase": "^10.13.0",
     "http-status": "^1.7.4",

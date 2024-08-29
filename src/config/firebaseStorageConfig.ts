@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyASlsRwEFWjgDsLKuvRzEOSCxodjAi9L-c',
+  apiKey: process.env.FIREBASE_API_KEY,
   authDomain: 'audiodoc-storage.firebaseapp.com',
   projectId: 'audiodoc-storage',
   storageBucket: 'audiodoc-storage.appspot.com',

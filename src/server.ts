@@ -1,10 +1,9 @@
 import routes from 'routes';
 import fastify from 'fastify';
 import fileHandler from '@fastify/multipart';
-import loggerConfig from 'config/fastifyLoggerConfig';
 import fileHandlerOptions from 'config/fileHandlerOptions';
 
-const server = fastify(loggerConfig);
+const server = fastify();
 server.register(fileHandler, fileHandlerOptions);
 server.register(routes);
 
