@@ -2,7 +2,7 @@ import AppError from 'errors/AppError';
 import textToSpeech from '@google-cloud/text-to-speech';
 import { TTSRequest } from 'types/TTSRequest';
 import { VoiceLanguage } from 'types/VoiceLanguage';
-import { VOICES_NAMES } from 'constants/voicesNames';
+import { VOICES_DATA } from 'constants/voicesData';
 
 const TTS_CLIENT = new textToSpeech.TextToSpeechClient({
   apiKey: process.env.TTS_API_KEY,
@@ -14,10 +14,7 @@ export async function executeTTSRequest({
   gender,
   voiceIndex,
 }: TTSRequest) {
-  const { names, quantity } = VOICES_NAMES[language][gender];
-
-  const invalidIndex = voiceIndex < 0 || voiceIndex >= quantity;
-  if (invalidIndex) throw new AppError('Invalid voice index provided!');
+  const { names } = VOICES_DATA[language][gender];
 
   const { code: languageCode } = VoiceLanguage[language];
   const name = `${languageCode}-${names[voiceIndex]}`;
