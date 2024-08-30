@@ -62,13 +62,13 @@ const PORTUGUESE_FEMALE_NAMES = [
   'Wavenet-D',
 ];
 
-type VoicesNames = {
+type VoicesData = {
   [key in VoiceLanguageKey]: {
     [key in VoiceGender]: { names: string[]; quantity: number };
   };
 };
 
-export const VOICES_NAMES: VoicesNames = {
+export const VOICES_DATA: VoicesData = {
   ENGLISH: {
     MALE: {
       names: ENGLISH_MALE_NAMES,
