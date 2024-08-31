@@ -1,5 +1,4 @@
 import AppError from 'errors/AppError';
-import parsePDF from 'pdf-parse';
 import { z } from 'zod';
 import { MultipartFile } from '@fastify/multipart';
 import { VOICE_GENDER_KEYS } from 'constants/voiceGenderKeys';
@@ -8,7 +7,8 @@ import { handleSchemaValidation } from 'utils/handleSchemaValidation';
 import { VoiceLanguageKey } from 'types/VoiceLanguage';
 import { VoiceGender } from 'types/VoiceGender';
 import { VOICES_DATA } from 'constants/voicesData';
-import { TTSRequest } from 'types/TTSRequest';
+import { convertPDFFileToPagesText } from './convertPDFFileToPagesText';
+import { PDFToAudioRequest } from 'types/PDFToAudioRequest';
 
 type ObjectWithValue<T> = { value: T };
 type PDFToAudioRequestData = {
@@ -31,9 +31,9 @@ const VALIDATION_SCHEMA = z.object({
   }),
 });
 
-export async function processPDFToAudioRequestForTTS(
+export async function parseRequestDataToPDFToAudioRequest(
   requestData: MultipartFile | undefined,
-): Promise<TTSRequest> {
+): Promise<PDFToAudioRequest> {
   if (!requestData) throw new AppError('Invalid or no pdf provided!');
   handleSchemaValidation(VALIDATION_SCHEMA, requestData);
 
@@ -49,11 +49,10 @@ export async function processPDFToAudioRequestForTTS(
     );
   }
 
-  const pdfBuffer = await requestData.toBuffer();
-  const { text } = await parsePDF(pdfBuffer);
+  const pagesText = await convertPDFFileToPagesText(requestData);
   return {
     fileName: requestData.filename,
-    text,
+    pagesText,
     language: language.value,
     gender: gender.value,
     voiceIndex: voiceIndex.value,

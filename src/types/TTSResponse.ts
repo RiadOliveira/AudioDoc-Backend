@@ -1,4 +1,4 @@
 export type TTSResponse = {
-  initialAudioUrl: string;
-  audioParts: number;
+  audioBaseName: string;
+  pagesAudiosQuantity: number[];
 };

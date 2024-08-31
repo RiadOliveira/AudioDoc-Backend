@@ -1,13 +1,13 @@
 import { FastifyPluginCallback } from 'fastify';
-import { handleTTSRequest } from 'services/pdfToAudio/handleTTSRequest';
-import { processPDFToAudioRequestForTTS } from 'services/pdfToAudio/processPDFToAudioRequestForTTS';
+import { handlePDFToAudioRequest } from 'services/pdfToAudio/handlePDFToAudioRequest';
+import { parseRequestDataToPDFToAudioRequest } from 'services/pdfToAudio/parseRequestDataToPDFToAudioRequest';
 
 const routes: FastifyPluginCallback = async (server, _options) => {
   server.post('/pdf-to-audio', async (request, response) => {
-    const requestData = await request.file();
+    const data = await request.file();
 
-    const ttsRequest = await processPDFToAudioRequestForTTS(requestData);
-    const responseData = await handleTTSRequest(ttsRequest);
+    const parsedRequest = await parseRequestDataToPDFToAudioRequest(data);
+    const responseData = await handlePDFToAudioRequest(parsedRequest);
 
     response.send(responseData);
   });
