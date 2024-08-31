@@ -24,9 +24,11 @@ export async function executeTTSRequest({
     audioConfig: { audioEncoding: 'MP3' },
   });
 
-  const invalidResponse = !response || !response.audioContent;
+  const invalidResponse =
+    !response ||
+    !response.audioContent ||
+    typeof response.audioContent === 'string';
   if (invalidResponse) throw AppError.InternalServerErrorInstance;
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  return response.audioContent!;
+  return response.audioContent as Uint8Array;
 }

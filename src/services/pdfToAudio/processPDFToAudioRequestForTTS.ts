@@ -52,6 +52,7 @@ export async function processPDFToAudioRequestForTTS(
   const pdfBuffer = await requestData.toBuffer();
   const { text } = await parsePDF(pdfBuffer);
   return {
+    fileName: requestData.filename,
     text,
     language: language.value,
     gender: gender.value,
